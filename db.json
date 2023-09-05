@@ -1,0 +1,1 @@
+{"users": {"1": {"name": "luiz", "login": "lac"}, "2": {"name": "carlos", "login": "carlos"}, "3": {"name": "carlos", "login": "renato"}}, "posts": {"1": {"user_login": "carlos", "content": "meu primeiro post"}, "2": {"user_login": "carlos", "content": "meu primeiro post"}, "3": {"user_login": "carlos", "content": "meu terceiro post"}}}

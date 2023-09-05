@@ -28,6 +28,7 @@ def create_user():
     users.insert(user.__dict__)
     return jsonify({'message': 'Usuário criado com sucesso!'}), 201
 
+
 @app.route('/createPost', methods=['POST'])
 def create_post():
     data = request.get_json()
@@ -41,14 +42,14 @@ def create_post():
     posts.insert(post.__dict__)
     return jsonify({'message': 'Post feito con sucesso'}), 201
 
-# @app.route('/getPosts', methods=['GET'])
-# def get_posts():
-#     r = ''
-#     for post in posts.all():
-#         print(post)
-#         r += f"<h2>{post['user_login']}</h2>"
-#         r += f"<p>{post['content']}</p>"
-#     return r
+@app.route('/getPosts', methods=['GET'])
+def get_posts():
+    r = ''
+    for post in posts.all():
+        print(post)
+        r += f"<h2>{post['user_login']}</h2>"
+        r += f"<p>{post['content']}</p>"
+    return r
 
 if __name__ == '__main__':
     app.run()
