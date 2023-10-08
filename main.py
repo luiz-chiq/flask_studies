@@ -20,9 +20,19 @@ likes = db.table('likes')
 def hello():
     return '<h1>Hello, World!</h1>'
 
+@app.route('/getUsers', methods=['GET'])
+def get_users():
+    r = ''
+    for user in users.all():
+        r += f"<h2>{user['uuid']}</h2>"
+        r += f"<p>{user['login']}</p>"
+        r += f"<p>{post['name']}</p>"
+    return r
+
 @app.route('/createUser', methods=['POST'])
 def create_user():
     data = request.get_json()  # Obter os dados do JSON na requisição
+
     if 'login' not in data or 'name' not in data:
         return jsonify({'message': 'Dados incompletos'}), 400
     
@@ -32,7 +42,6 @@ def create_user():
     
     users.insert(user.__dict__)
     return jsonify({'message': 'Usuário criado com sucesso!'}), 201
-
 
 @app.route('/createPost', methods=['POST'])
 def create_post():
@@ -47,12 +56,68 @@ def create_post():
     posts.insert(post.__dict__)
     return jsonify({'message': 'Post feito con sucesso'}), 201
 
+@app.route('/updateUser', methods=['PUT'])
+def update_user():
+    
+    data = request.get_json()
+    dataToBeUpdated = {}
+
+    if 'id' not in data:
+        return jsonify({'message': 'Dados incompletos'}), 400
+    
+    if 'name' in data:
+        setattr(dataToBeUpdated, 'name', data['name'])
+       
+    users.update(dataToBeUpdated, Query().uuid == data['id'])
+    return jsonify({'message': 'Usuário atualizado com sucesso'}), 200
+
+@app.route('/removeUser', methods=['DELETE'])
+def remove_user():
+    data = request.get_json()
+    if 'id' not in data:
+         return jsonify({'message': 'Dados incompletos'}), 400
+    
+    users.remove(Query().uuid == data['id'])
+    return jsonify({'message': 'Usuário excluido com sucesso'}), 200
+
 @app.route('/getPosts', methods=['GET'])
 def get_posts():
     r = ''
     for post in posts.all():
         print(post)
         r += f"<h2>{post['user_login']}</h2>"
+        r += f"<p>{post['content']}</p>"
+    return r
+
+@app.route('/removePost', methods=['DELETE'])
+def remove_post():
+    data = request.get_json()
+    if 'id' not in data:
+         return jsonify({'message': 'Dados incompletos'}), 400
+    
+    posts.remove(Query().uuid == data['id'])
+    return jsonify({'message': 'Post excluido com sucesso!'}), 200
+
+@app.route('/updatePost', methods=['PUT'])
+def update_post():
+    
+    data = request.get_json()
+    dataToBeUpdated = {}
+
+    if 'id' not in data:
+        return jsonify({'message': 'Dados incompletos'}), 400
+    
+    if 'content' in data:
+        setattr(dataToBeUpdated, 'content', data['content'])
+       
+    posts.update(dataToBeUpdated, Query().uuid == data['id'])
+    return jsonify({'message': 'Post atualizado com sucesso!'}), 200
+
+@app.route('/getPosts', methods=['GET'])
+def get_posts():
+    r = ''
+    for post in posts.all():
+        r += f"<h2>{post['login']}</h2>"
         r += f"<p>{post['content']}</p>"
     return r
 
