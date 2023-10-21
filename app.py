@@ -17,6 +17,8 @@ def hello():
     
     return '<h1>Hello, World!</h1>'
 
+#teste
+
 @app.route('/createUser', methods=['POST'])
 def create_user():
 
