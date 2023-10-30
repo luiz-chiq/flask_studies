@@ -1,0 +1,1 @@
+{"users": {"1": {"name": "test", "login": "teste", "password": "123", "uuid": "2635f80c-5379-4947-b855-12145e6ae90f"}}, "posts": {"1": {"user_login": "teste", "content": "blabla", "likes": 1, "uuid": "98b67769-0a51-4527-bb6b-b74c994c9917"}}, "user_like_post": {}}
