@@ -41,6 +41,9 @@ def update_user():
     if 'login' not in data:
         return jsonify({'message': 'Dados incompletos'}), 400
     
+    if (not users.contains(Query().login == data['login'])):
+        return jsonify({'message': 'Usuário não encontrado'}), 404
+    
     isUserLogged = verifyIfIsLoggedUserByLogin(data['login'])
     if (not isUserLogged):
         return jsonify({'message': 'Apenas o dono desse usuário pode editá-lo'}), 401
@@ -61,7 +64,12 @@ def remove_user():
     if 'id' not in data:
          return jsonify({'message': 'Dados incompletos'}), 400
     
-    removedUser = users.remove(Query().id == data['id'])
-    if (len(removedUser) == 0):
-        return jsonify({'message': 'Usuário não encontrado'}), 404
+    if (not users.contains(Query().uuid == data['id'])):
+         return jsonify({'message': 'Usuário não encontrado'}), 404
+    
+    isUserLogged = verifyIfIsLoggedUserById(data['id'])
+    if (not isUserLogged):
+        return jsonify({'message': 'Apenas o dono desse usuário pode removê-lo'}), 401
+    users.remove(Query().uuid == data['id'])
+   
     return jsonify({'message': 'Usuário removido com sucesso'}), 201
