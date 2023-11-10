@@ -9,12 +9,7 @@ users = db.table('users')
 
 @app.route('/getUsers', methods=['GET'])
 def get_users():
-    r = ''
-    for user in users.all():
-        r += f"<h2>ID: {user['uuid']}</h2>"
-        r += f"<p>Login: {user['login']}</p>"
-        r += f"<p>Nome: {user['name']}</p>"
-    return r
+   return users.all()
 
 @app.route('/createUser', methods=['POST'])
 def create_user():

@@ -14,6 +14,7 @@ db = TinyDB("db.json")
 import userRoutes
 import postRoutes
 import authRoutes
+import postCommentRoutes
 
 @app.route('/uuid', methods=['GET'])
 def generate_uuid():

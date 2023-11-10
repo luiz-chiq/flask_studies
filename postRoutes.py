@@ -103,10 +103,4 @@ def unlike_post(postId):
 
 @app.route('/getPosts', methods=['GET'])
 def get_posts():
-    r = ''
-    for post in posts.all():
-        print(post)
-        r += f"<h2>Login do Usuário: {post['user_login']}</h2>"
-        r += f"<p>Conteúdo: {post['content']}</p>"
-        r += f"<p>ID: {post['uuid']}</p>"
-    return r
+    return posts.all()
