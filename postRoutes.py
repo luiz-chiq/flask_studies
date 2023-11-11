@@ -103,4 +103,12 @@ def unlike_post(postId):
 
 @app.route('/getPosts', methods=['GET'])
 def get_posts():
-    return posts.all()
+    postsPerPage = 10
+
+    offset = len(posts)-postsPerPage
+    offset -= int(request.args.get('offset', 0))
+    if offset < 0:
+        offset = 0
+    pagedPosts = list(reversed(posts.all()[offset : offset + postsPerPage]))
+
+    return jsonify(pagedPosts), 200
