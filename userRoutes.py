@@ -58,16 +58,5 @@ def update_user():
 @app.route('/removeUser', methods=['DELETE'])
 @jwt_required()
 def remove_user():
-    data = request.get_json()
-    if 'id' not in data:
-         return jsonify({'message': 'Dados incompletos'}), 400
-    
-    if (not users.contains(Query().uuid == data['id'])):
-         return jsonify({'message': 'Usuário não encontrado'}), 404
-    
-    isUserLogged = verifyIfIsLoggedUserById(data['id'])
-    if (not isUserLogged):
-        return jsonify({'message': 'Apenas o dono desse usuário pode removê-lo'}), 401
-    users.remove(Query().uuid == data['id'])
-   
+    users.remove(Query().login == get_jwt_identity()["login"])
     return jsonify({'message': 'Usuário removido com sucesso'}), 201
