@@ -44,9 +44,8 @@ def create_comment():
 def update_comment():
     
     data = request.get_json()
-    dataToBeUpdated = {}
 
-    if 'comment_id' not in data:
+    if 'comment_id' not in data or 'content' not in data:
         return jsonify({'message': 'Dados incompletos'}), 400
     
     commentToUpdate = comments.get(Query().uuid == data['comment_id'])
@@ -54,14 +53,11 @@ def update_comment():
     if (commentToUpdate == None):
         return jsonify({'message': 'Comentário não encontrado'}), 404
     
-    userId = commentToUpdate.get('user_id')
-    
-    isUserLogged = verifyIfIsLoggedUserById(userId)
-    if (not isUserLogged):
+    if (commentToUpdate["user"] != get_jwt_identity()["login"]):
         return jsonify({'message': 'Apenas o dono desse comentário pode editá-lo'}), 401
 
-    if 'content' in data:
-        dataToBeUpdated['content'] = data['content']
+    dataToBeUpdated = {}
+    dataToBeUpdated['content'] = data['content']
 
     comments.update(dataToBeUpdated, Query().uuid == data['comment_id'])
        
