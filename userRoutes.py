@@ -13,6 +13,13 @@ def get_users():
    logins_list = [{"login": item["login"]} for item in data]
    return logins_list
 
+@app.route('/getUserInfo', methods=['GET'])
+@jwt_required()
+def get_user_info():
+    currentUser = users.get(Query().login == get_jwt_identity()["login"])
+    currentUser.pop("password")
+    return currentUser
+
 @app.route('/createUser', methods=['POST'])
 def create_user():
 
