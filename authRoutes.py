@@ -11,8 +11,8 @@ def login():
     password = request.json.get("password", None)
     if (login == None or password == None):
         return jsonify({'message': 'Dados incompletos'}), 400
-    user = users.get(Query().login == login and Query().password == password)
-    if user == None:
+    user = users.get(Query().login == login)
+    if user == None or user["password"] != password:
         return jsonify({"message": "Login ou senha incorretos"}), 401
 
     access_token = create_access_token(identity={"login": login, "id": user.get("uuid")})
