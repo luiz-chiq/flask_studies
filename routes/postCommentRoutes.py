@@ -8,9 +8,17 @@ from utils.modules import *
 comments = db.table('postComments')
 posts = db.table('posts')
 
-@app.route('/getComments', methods=['GET'])
-def get_comments():
-    return comments.all()
+@app.route('/getComments/<post_id>', methods=['GET'])
+@jwt_required()
+def get_comments(post_id):
+
+    post_comments = comments.get(Query().post_id == post_id)
+
+    if not post_comments:
+        return jsonify({'message': 'Post não encontrado'}), 404
+    
+    return comments.get(Query().post_id == post_id)
+
 
 @app.route('/createComment', methods=['POST'])
 @jwt_required()
