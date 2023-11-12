@@ -15,12 +15,12 @@ userLikePost = db.table('user_like_post')
 def create_post():
     data = request.get_json()
  
-    if 'user' not in data or 'content' not in data:
+    if 'content' not in data:
         return jsonify({'message': 'Dados incompletos'}), 400
     
-    post = Post(data['user'], data['content'])
-    if not users.contains(Query().login == post.user_login):
-        return jsonify({'message': 'Usuário não existe'}), 409
+    post = Post(get_jwt_identity()["login"], data['content'])
+    # if not users.contains(Query().login == post.user_login):
+    #     return jsonify({'message': 'Usuário não existe'}), 409
     
     posts.insert(post.__dict__)
     return jsonify({'message': 'Post feito com sucesso'}), 201
