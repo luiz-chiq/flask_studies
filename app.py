@@ -11,15 +11,12 @@ jwt = JWTManager(app)
 
 db = TinyDB("db.json")
 
-import userRoutes
-import postRoutes
-import authRoutes
-import postCommentRoutes
+from routes import userRoutes, postRoutes, postCommentRoutes, authRoutes
 
-@app.route('/uuid', methods=['GET'])
-def generate_uuid():
-    id = f'<h1>{uuid.uuid4()}</h1>'
-    return id
+# @app.route('/uuid', methods=['GET'])
+# def generate_uuid():
+#     id = f'<h1>{uuid.uuid4()}</h1>'
+#     return id
 
 if __name__ == '__main__':
     app.run()
