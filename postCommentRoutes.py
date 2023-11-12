@@ -24,10 +24,9 @@ def create_comment():
     if (not posts.contains(Query().uuid == data['post_id'])):
         return jsonify({'message': 'Postagem não encontrada'}), 404
     
-    identity = get_jwt_identity()
-    loggedUserId = identity.get("id")
+    loggedUser = get_jwt_identity()["login"]
     
-    comment = PostComment(data['post_id'], loggedUserId, data['content'])
+    comment = PostComment(data['post_id'], loggedUser, data['content'])
     
     comments.insert(comment.__dict__)
     return jsonify({'message': 'Comentário criado com sucesso!'}), 201
