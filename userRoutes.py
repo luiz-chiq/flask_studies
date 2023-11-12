@@ -31,25 +31,19 @@ def create_user():
 def update_user():
     
     data = request.get_json()
+    currentUser = get_jwt_identity()["login"]
     dataToBeUpdated = {}
-
-    if 'login' not in data:
-        return jsonify({'message': 'Dados incompletos'}), 400
-    
-    if (not users.contains(Query().login == data['login'])):
-        return jsonify({'message': 'Usuário não encontrado'}), 404
-    
-    isUserLogged = verifyIfIsLoggedUserByLogin(data['login'])
-    if (not isUserLogged):
-        return jsonify({'message': 'Apenas o dono desse usuário pode editá-lo'}), 401
 
     if 'name' in data:
         dataToBeUpdated['name'] = data['name']
 
     if 'password' in data:
          dataToBeUpdated['password'] = data['password']
+
+    if dataToBeUpdated == {}:
+        return jsonify({'message': 'Dados incompletos'}), 400
        
-    users.update(dataToBeUpdated, Query().login == data['login'])
+    users.update(dataToBeUpdated, Query().login == currentUser)
     return jsonify({'message': 'Usuário editado com sucesso!'}), 201
 
 @app.route('/removeUser', methods=['DELETE'])
