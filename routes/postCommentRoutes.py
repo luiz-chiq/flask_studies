@@ -66,22 +66,20 @@ def update_comment():
 @app.route('/removeComment', methods=['DELETE'])
 @jwt_required()
 def remove_comment():
+
     data = request.get_json()
+
     if 'comment_id' not in data:
-         return jsonify({'message': 'Dados incompletos'}), 400
+        return jsonify({'message': 'Dados incompletos'}), 400
     
-    if (not comments.contains(Query().uuid == data['comment_id'])):
-         return jsonify({'message': 'Comentário não encontrado'}), 404
-    
+
     commentToRemove = comments.get(Query().uuid == data['comment_id'])
+
     if (commentToRemove == None):
         return jsonify({'message': 'Comentário não encontrado'}), 404
     
-    userId = commentToRemove.get('user_id')
-
-    isUserLogged = verifyIfIsLoggedUserById(userId)
-    if (not isUserLogged):
-        return jsonify({'message': 'Apenas o dono desse comentário pode removê-lo'}), 401
+    if (commentToRemove["user"] != get_jwt_identity()["login"]):
+        return jsonify({'message': 'Apenas o dono desse comentário pode editá-lo'}), 401
    
     comments.remove(Query().uuid == data['comment_id'])
    
