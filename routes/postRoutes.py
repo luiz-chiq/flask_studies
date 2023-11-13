@@ -4,7 +4,6 @@ from flask import jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.post import Post
 from models.UserLikePost import UserLikePost
-from utils.modules import *
 
 users = db.table('users')
 posts = db.table('posts')
@@ -19,8 +18,6 @@ def create_post():
         return jsonify({'message': 'Dados incompletos'}), 400
     
     post = Post(get_jwt_identity()["login"], data['content'])
-    # if not users.contains(Query().login == post.user_login):
-    #     return jsonify({'message': 'Usuário não existe'}), 409
     
     posts.insert(post.__dict__)
     return jsonify({'message': 'Post feito com sucesso'}), 201

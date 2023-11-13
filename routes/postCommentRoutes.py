@@ -3,7 +3,6 @@ from tinydb import Query
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required
 from models.postComment import PostComment
-from utils.modules import *
 
 comments = db.table('postComments')
 posts = db.table('posts')

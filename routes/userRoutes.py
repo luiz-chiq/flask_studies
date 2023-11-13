@@ -3,7 +3,6 @@ from tinydb import Query
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required
 from models.user import User
-from utils.modules import *
 
 users = db.table('users')
 
