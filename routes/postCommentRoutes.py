@@ -48,13 +48,9 @@ def update_comment():
     if 'comment_id' not in data or 'content' not in data:
         return jsonify({'message': 'Dados incompletos'}), 400
     
-    commentToUpdate = comments.get(Query().uuid == data['comment_id'])
-
-    if (commentToUpdate == None):
-        return jsonify({'message': 'Comentário não encontrado'}), 404
-    
-    if (commentToUpdate["user"] != get_jwt_identity()["login"]):
-        return jsonify({'message': 'Apenas o dono desse comentário pode editá-lo'}), 401
+    finded = find_comment(data)
+    if finded != None:
+        return finded
 
     dataToBeUpdated = {}
     dataToBeUpdated['content'] = data['content']
@@ -72,15 +68,20 @@ def remove_comment():
     if 'comment_id' not in data:
         return jsonify({'message': 'Dados incompletos'}), 400
     
+    finded = find_comment(data)
+    if finded != None:
+        return finded
 
-    commentToRemove = comments.get(Query().uuid == data['comment_id'])
-
-    if (commentToRemove == None):
-        return jsonify({'message': 'Comentário não encontrado'}), 404
-    
-    if (commentToRemove["user"] != get_jwt_identity()["login"]):
-        return jsonify({'message': 'Apenas o dono desse comentário pode editá-lo'}), 401
-   
     comments.remove(Query().uuid == data['comment_id'])
    
     return jsonify({'message': 'Comentário removido com sucesso'}), 201
+
+def find_comment(data):
+    
+    comment = comments.get(Query().uuid == data['comment_id'])
+
+    if (comment == None):
+        return jsonify({'message': 'Comentário não encontrado'}), 404
+    
+    if (comment["user"] != get_jwt_identity()["login"]):
+        return jsonify({'message': 'Apenas o dono desse comentário pode editá-lo'}), 401
