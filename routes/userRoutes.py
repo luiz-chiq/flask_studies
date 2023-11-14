@@ -1,7 +1,7 @@
 from app import app, db
 from tinydb import Query
 from flask import jsonify, request
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.user import User
 
 users = db.table('users')
