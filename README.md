@@ -4,6 +4,8 @@
 
 Este projeto consiste em uma ideia de API backend para uma rede social ou fórum desenvolvida em Flask, um micro-framework web leve e poderoso para Python.
 
+Os comandos abaixo devem ser feitos na pasta backend
+
 ## Configuração do Ambiente Virtual
 
 ### Windows:

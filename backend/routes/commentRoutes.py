@@ -2,7 +2,7 @@ from app import app, db
 from tinydb import Query
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from models.postComment import PostComment
+from models.comment import Comment
 
 comments = db.table('postComments')
 posts = db.table('posts')
@@ -33,7 +33,7 @@ def create_comment():
     
     loggedUser = get_jwt_identity()["login"]
     
-    comment = PostComment(data['post_id'], loggedUser, data['content'])
+    comment = Comment(data['post_id'], loggedUser, data['content'])
     
     comments.insert(comment.__dict__)
     return jsonify({'message': 'Comentário criado com sucesso!'}), 201
