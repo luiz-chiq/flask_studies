@@ -1,6 +1,6 @@
 import uuid
 
-class PostComment:
+class Comment:
     def __init__(self, post_id, user, content):
         self.user = user
         self.post_id = post_id

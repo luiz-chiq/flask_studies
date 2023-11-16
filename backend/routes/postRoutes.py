@@ -3,7 +3,7 @@ from tinydb import Query
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.post import Post
-from models.UserLikePost import UserLikePost
+from models.postLike import PostLike
 
 users = db.table('users')
 posts = db.table('posts')
@@ -71,7 +71,7 @@ def like_post(postId):
 
     userLogin = get_jwt_identity().get('login')
 
-    userLikedPost = UserLikePost(userLogin, postId)
+    userLikedPost = PostLike(userLogin, postId)
     userLikePost.insert(userLikedPost.__dict__)
     
     return jsonify({'message': 'Post curtido com sucesso!'}), 200

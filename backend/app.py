@@ -9,7 +9,7 @@ jwt = JWTManager(app)
 
 db = TinyDB("db.json")
 
-from routes import userRoutes, postRoutes, postCommentRoutes, authRoutes
+from routes import userRoutes, postRoutes, commentRoutes, authRoutes
 
 if __name__ == '__main__':
     app.run()
