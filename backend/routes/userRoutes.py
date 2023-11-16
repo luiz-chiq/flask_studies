@@ -8,8 +8,8 @@ users = db.table('users')
 
 @app.route('/getUsers', methods=['GET'])
 def get_users():
-   data = users.all()
-   logins_list = [{"login": item["login"]} for item in data]
+   logins_list = users.all()
+   [{item.pop("password")} for item in logins_list]
    return logins_list
 
 @app.route('/getUserInfo', methods=['GET'])
